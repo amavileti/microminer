@@ -1,11 +1,16 @@
 package edu.csudh.cs.se.p2.service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import com.google.common.base.Function;
+import com.google.common.base.Functions;
 import com.google.common.base.Predicates;
 import com.google.common.base.Splitter;
+import com.google.common.base.Strings;
+import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 
@@ -15,18 +20,50 @@ public class IndexSearchMapImpl implements IndexSearcher {
     
 
     private Map<String, String> content;
+    private UrlRepository repository;
     
     
     public IndexSearchMapImpl(UrlRepository repository){
+        this.repository = repository;
         content = repository.loadUrls();
     }
 
     public Map<String, String> search(final String description) {
         Iterable<String> descriptions = Splitter.on(Pattern.compile("\\s+")).split(description);
         List<String> searchString = ImmutableList.copyOf(descriptions);
-        Map<String, String> filteredKeys = Maps.filterKeys(content, Predicates.in(searchString));
+        Collection<String> transformedCollection = Collections2.transform(searchString, compositeFilter);
+        Collection<String> filteredCollection = Collections2.filter(transformedCollection, Predicates.notNull());
+        Map<String, String> filteredKeys = Maps.filterKeys(content, Predicates.in(filteredCollection));
         return filteredKeys;
     }
 
     
+    public void reload(){
+        repository.loadUrls();
+    }
+    
+    private Function<String, String> noiseFilter = new Function<String, String>(){
+        Collection<String> noiseWords = ImmutableList.of("a", "an", "the", "and", "or", 
+                "of", "to", "be", "is", "in", "out", "by", "as", "at", "off");
+        
+        public String apply(String input) {
+            if(Strings.isNullOrEmpty(input) || noiseWords.contains(input)){
+                return null;
+            }
+            return input;
+        }
+    };
+    
+    private Function<String, String> specialCharactersFilter = new Function<String, String>(){
+        Pattern regex = Pattern.compile("[$&+,:;=?@#|]");
+        
+        public String apply(String input) {
+            if(Strings.isNullOrEmpty(input) || regex.matcher(input).matches()){
+                return null;
+            }
+            return input;
+        }
+    };
+    
+    private Function<String, String> compositeFilter = Functions.compose(noiseFilter, specialCharactersFilter);
 }

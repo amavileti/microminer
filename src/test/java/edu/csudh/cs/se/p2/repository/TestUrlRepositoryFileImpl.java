@@ -13,21 +13,23 @@ import com.google.common.collect.Sets;
 
 public class TestUrlRepositoryFileImpl {
 
-    String content = "url1,http://www.csudh.edu\n" +
-    		"url2,http://www.google.com";
-    
+    String content = "url1 , http://www.csudh.edu" + System.getProperty("line.separator") + "url2, http://www.google.com";
+
     private UrlRepositoryFileImpl repository;
-    
+
     @Before
-    public void setUp(){
+    public void setUp() {
         repository = new UrlRepositoryFileImpl(content);
     }
-   @Test
-   public void loadUrls(){
-       Map<String, String> result = repository.loadUrls();
-       assertNotNull(result);
-       assertTrue(result.size() == 2);
-       assertEquals(result.keySet(), Sets.newHashSet("url1", "url2"));
-   }
+
+    @Test
+    public void loadUrls() {
+        Map<String, String> result = repository.loadUrls();
+        assertNotNull(result);
+        assertTrue(result.size() == 2);
+        assertEquals(result.keySet(), Sets.newHashSet("url1", "url2"));
+        assertTrue(result.values().contains("http://www.csudh.edu"));
+        assertTrue(result.values().contains("http://www.google.com"));
+    }
 
 }
