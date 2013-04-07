@@ -1,6 +1,7 @@
 package edu.csudh.cs.se.p2.service;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.util.Map;
@@ -30,9 +31,32 @@ public class TestIndexSearchMap {
         impl = new IndexSearchMapImpl(urlRepository);
     }
     
+   
     @Test
-    public void test() {
-        fail("Not yet implemented");
+    public void searchCase1(){
+        sourceData.put("searchString", "http://www.csudh.edu");
+        impl.reload();
+        Map<String, String> result = impl.search("searchString");
+        assertNotNull(result);
+        assertTrue(result.size() == 1);
+        assertTrue(result.containsKey("searchString"));
     }
-
+    
+    @Test
+    public void noiseWordSearch(){
+        sourceData.put("an searchString", "http://www.csudh.edu");
+        impl.reload();        
+        Map<String, String> result = impl.search("an");
+        assertNotNull(result);
+        assertTrue(result.size() == 0);
+    }
+    
+    @Test
+    public void specialKeywordSearch(){
+        sourceData.put("$W searchString", "http://www.csudh.edu");
+        impl.reload();
+        Map<String, String> result = impl.search("$W");
+        assertNotNull(result);
+        assertTrue(result.size() == 0);
+    }
 }

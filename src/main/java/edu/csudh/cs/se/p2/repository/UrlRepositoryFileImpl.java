@@ -17,7 +17,8 @@ public class UrlRepositoryFileImpl implements UrlRepository {
     }
     
     public Map<String, String> loadUrls() {
-        return Splitter.on(NEW_LINE).withKeyValueSeparator(Splitter.on(csvPattern)).split(content);
+        return Splitter.on(NEW_LINE).withKeyValueSeparator(
+                Splitter.on(csvPattern)).split(content.toLowerCase());
     }
 
     

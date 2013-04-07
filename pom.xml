@@ -65,5 +65,10 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>edu.csudh.cs.se.p1</groupId>
+			<artifactId>aapplet</artifactId>
+			<version>0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 </project>
