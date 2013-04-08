@@ -20,6 +20,4 @@ public class UrlRepositoryFileImpl implements UrlRepository {
         return Splitter.on(NEW_LINE).withKeyValueSeparator(
                 Splitter.on(csvPattern)).split(content.toLowerCase());
     }
-
-    
 }

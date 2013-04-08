@@ -7,9 +7,7 @@ import java.awt.Container;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.swing.BorderFactory;
 import javax.swing.JApplet;
@@ -20,12 +18,11 @@ import javax.swing.JTextArea;
 import javax.swing.border.Border;
 
 import com.google.common.base.Joiner;
-import com.google.common.collect.Maps;
 
 import edu.csudh.cs.se.p1.applet.KWRotator;
 import edu.csudh.cs.se.p2.repository.UrlRepository;
 import edu.csudh.cs.se.p2.repository.UrlRepositoryFileImpl;
-import edu.csudh.cs.se.p2.service.IndexSearchMapImpl;
+import edu.csudh.cs.se.p2.service.IndexSearchMapImplKw;
 import edu.csudh.cs.se.p2.service.IndexSearcher;
 
 public class Mapplet extends JApplet implements ActionListener {
@@ -52,7 +49,8 @@ public class Mapplet extends JApplet implements ActionListener {
     public void init() {
         rotator = new KWRotator();
         repository = new UrlRepositoryFileImpl(content);
-        searcher = new IndexSearchMapImpl(repository);
+        //searcher = new IndexSearchMapImpl(repository);
+        searcher = new IndexSearchMapImplKw(repository, rotator);
         
         Container content = getContentPane();
         content.setBackground(new Color(201, 189, 224));
@@ -73,16 +71,6 @@ public class Mapplet extends JApplet implements ActionListener {
         in.setSize(600, 20);
         content.add(in);
         content.add(scrollfield);
-        radioGroup = new CheckboxGroup();
-        r1 = new Checkbox("And", radioGroup, false);
-        r1.setLocation(230, 180);
-        r1.setSize(50, 15);
-        content.add(r1);
-        r2 = new Checkbox("Or", radioGroup, true);
-        r2.setLocation(320, 180);
-        r2.setSize(50, 15);
-        content.add(r2);
-
         out = new JLabel("List of URL's");
         out.setFont(new Font("Serif", Font.BOLD, 14));
         out.setForeground(Color.BLUE);
@@ -106,20 +94,18 @@ public class Mapplet extends JApplet implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        Checkbox chk = radioGroup.getSelectedCheckbox();
-        if (chk.getLabel().equals("And") && e.getSource() == b1) {
-            // Keyword1 and Keyword 2
-        }
-        if (chk.getLabel().equals("Or") && e.getSource() == b1) {
+//        Checkbox chk = radioGroup.getSelectedCheckbox();
+        if (e.getSource() == b1) {
             Map<String, String> output = searcher.search(in.getText());
-            Map<String, String> returnValue = Maps.newHashMap();
-            for(Entry<String, String> keyValue : output.entrySet()){
+            //Map<String, String> returnValue = Maps.newHashMap();
+/*            for(Entry<String, String> keyValue : output.entrySet()){
                 List<String> rotatedDescription = rotator.rotate(keyValue.getKey());
                 for(String s : rotatedDescription){
                     returnValue.put(s, keyValue.getValue());
                 }
             }
-            String result = Joiner.on(newLine).withKeyValueSeparator(",").join(returnValue);
+*/            
+            String result = Joiner.on(newLine).withKeyValueSeparator(" ").join(output);
             op.setText(result);
         }
     }
