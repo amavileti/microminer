@@ -51,4 +51,24 @@ public class StringTransformer implements Function<String, String>{
     public String transform(String s){
         return compositeFilter.apply(s);
     }
+    
+    /*public static void main(String[] args){
+    Function<String, String> sr = new Function<String, String>() {
+        //Pattern noiseWords = Pattern.compile("");
+        Pattern noiseWords = Pattern.compile("((.*)(\\s+((a((n(d)?)?|t|s)?)?|o(r|f(f)?)|(t(o|he))?|(i(s|n))?|(b(e|y))?)?\\s+)+(.*))+");
+
+
+        public String apply(String input) {
+            if(Strings.isNullOrEmpty(input)){
+                return input;
+            }
+            if (noiseWords.matcher(input).matches()) {
+                return noiseWords.matcher(input).replaceAll("$2");
+            }
+            return null;
+        }
+    };
+    
+    System.out.println(sr.apply("this is a test"));
+}*/
 }

@@ -19,10 +19,7 @@ import javax.swing.border.Border;
 
 import com.google.common.base.Joiner;
 
-import edu.csudh.cs.se.p1.applet.KWRotator;
 import edu.csudh.cs.se.p2.repository.UrlRepository;
-import edu.csudh.cs.se.p2.repository.UrlRepositoryFileImpl;
-import edu.csudh.cs.se.p2.service.IndexSearchMapImplKw;
 import edu.csudh.cs.se.p2.service.IndexSearcher;
 
 public class Mapplet extends JApplet implements ActionListener {
@@ -40,22 +37,20 @@ public class Mapplet extends JApplet implements ActionListener {
     
     private String content  = "description1 test google, http://www.google.com" + System.getProperty("line.separator") + "description2 california state university, http://www.csudh.edu";
     
-    private KWRotator rotator;
     private UrlRepository repository;
     private IndexSearcher searcher;
     
     private String newLine = System.getProperty("line.separator");
 
     public void init() {
-        rotator = new KWRotator();
-        repository = new UrlRepositoryFileImpl(content);
-        //searcher = new IndexSearchMapImpl(repository);
-        searcher = new IndexSearchMapImplKw(repository, rotator);
+        repository = MicrominerContainer.getRepository();
+        repository.setContent(content);
+        searcher = MicrominerContainer.getSearcher();
+        searcher.reload();
         
         Container content = getContentPane();
         content.setBackground(new Color(201, 189, 224));
-        content.setLayout(null);
-        // content.setLayout(null);
+        content.setLayout(null);        
         Border border = BorderFactory.createLineBorder(Color.BLACK);
         inp = new JLabel("Please Enter Keywords");
         inp.setFont(new Font("Serif", Font.BOLD, 14));
@@ -94,17 +89,8 @@ public class Mapplet extends JApplet implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-//        Checkbox chk = radioGroup.getSelectedCheckbox();
         if (e.getSource() == b1) {
             Map<String, String> output = searcher.search(in.getText());
-            //Map<String, String> returnValue = Maps.newHashMap();
-/*            for(Entry<String, String> keyValue : output.entrySet()){
-                List<String> rotatedDescription = rotator.rotate(keyValue.getKey());
-                for(String s : rotatedDescription){
-                    returnValue.put(s, keyValue.getValue());
-                }
-            }
-*/            
             String result = Joiner.on(newLine).withKeyValueSeparator(" ").join(output);
             op.setText(result);
         }

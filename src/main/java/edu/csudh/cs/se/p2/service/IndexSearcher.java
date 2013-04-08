@@ -5,4 +5,6 @@ import java.util.Map;
 public interface IndexSearcher {
 
     Map<String, String> search(String description);
+    
+    void reload();
 }
