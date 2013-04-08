@@ -19,7 +19,8 @@ public class TestUrlRepositoryFileImpl {
 
     @Before
     public void setUp() {
-        repository = new UrlRepositoryFileImpl(content);
+        repository = new UrlRepositoryFileImpl();
+        repository.setContent(content);
     }
 
     @Test

@@ -13,11 +13,13 @@ public final class MicrominerContainer {
     private static KWRotator rotator;    
     
     private static IndexSearcher searcher;
-    
-    private MicrominerContainer(){
-        repository = new UrlRepositoryFileImpl("");
+
+    static{
+        repository = new UrlRepositoryFileImpl();
         rotator = new KWRotator();
         searcher = new IndexSearchMapImplKw(repository, rotator);
+    }
+    private MicrominerContainer(){
     }
     
     public static UrlRepository getRepository(){

@@ -52,7 +52,6 @@ public class IndexSearchMapImplKw implements IndexSearcher{
         this.rotator = rotator;
         transformer = new StringTransformer();
         kwicValues = Maps.newHashMap();
-        reload(); //Index content at applet startup
     }
 
     /**

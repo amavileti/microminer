@@ -12,8 +12,7 @@ public class UrlRepositoryFileImpl implements UrlRepository {
     
     private static final String NEW_LINE = System.getProperty("line.separator");
     
-    public UrlRepositoryFileImpl(String s){
-        setContent(s);
+    public UrlRepositoryFileImpl(){
     }
     
     public Map<String, String> loadUrls() {
