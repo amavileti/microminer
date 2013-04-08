@@ -126,4 +126,18 @@ public class IndexSearchMapImplKw implements IndexSearcher{
         return returnMap;
     }
     
+    public Map<String, String> rotate(Map<String, String> tempContent){
+        Map<String, String> output = Maps.newHashMap();
+        for(Entry<String, String> entry: tempContent.entrySet()){
+            String transformedKey = transformer.apply(entry.getKey());
+            if(!Strings.isNullOrEmpty(transformedKey)){
+                Collection<String> rotatedValues = rotator.rotate(transformedKey);
+                for(String s: rotatedValues){
+                    output.put(s, entry.getValue());
+                }
+            }
+        }
+        return output;
+    }
+    
 }

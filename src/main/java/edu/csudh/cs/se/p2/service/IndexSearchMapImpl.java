@@ -51,5 +51,9 @@ public class IndexSearchMapImpl implements IndexSearcher {
     public void reload(Map<String, String> content){
         this.content = content;
     }
+    
+    public Map<String, String> rotate(Map<String, String> tempContent){
+        throw new UnsupportedOperationException();
+    }
 
 }

@@ -9,4 +9,6 @@ public interface IndexSearcher {
     void reload();
     
     void reload(Map<String, String> values);
+    
+    Map<String, String> rotate(Map<String, String> tempContent);
 }
