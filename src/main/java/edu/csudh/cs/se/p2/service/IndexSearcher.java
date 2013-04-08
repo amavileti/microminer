@@ -7,4 +7,6 @@ public interface IndexSearcher {
     Map<String, String> search(String description);
     
     void reload();
+    
+    void reload(Map<String, String> values);
 }

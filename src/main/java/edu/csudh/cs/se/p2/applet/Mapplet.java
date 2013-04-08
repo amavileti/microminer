@@ -19,6 +19,7 @@ import javax.swing.border.Border;
 
 import com.google.common.base.Joiner;
 
+import edu.csudh.cs.se.p2.repository.KwicRepository;
 import edu.csudh.cs.se.p2.repository.UrlRepository;
 import edu.csudh.cs.se.p2.service.IndexSearcher;
 
@@ -39,14 +40,12 @@ public class Mapplet extends JApplet implements ActionListener {
     
     private UrlRepository repository;
     private IndexSearcher searcher;
+    private KwicRepository kwicRepository;
     
     private String newLine = System.getProperty("line.separator");
 
     public void init() {
-        repository = MicrominerContainer.getRepository();
-        repository.setContent(content);
-        searcher = MicrominerContainer.getSearcher();
-        searcher.reload();
+        initDependencies();
         
         Container content = getContentPane();
         content.setBackground(new Color(201, 189, 224));
@@ -88,6 +87,14 @@ public class Mapplet extends JApplet implements ActionListener {
         b1.addActionListener(this);
     }
 
+    private void initDependencies(){
+        repository = MicrominerContainer.getRepository();
+        repository.setContent(content);
+        searcher = MicrominerContainer.getSearcher();
+        kwicRepository = MicrominerContainer.getKwicRepository();
+        Map<String, String> values = kwicRepository.getAll();
+        searcher.reload(values);
+    }
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == b1) {
             Map<String, String> output = searcher.search(in.getText());

@@ -48,5 +48,8 @@ public class IndexSearchMapImpl implements IndexSearcher {
         repository.loadUrls();
     }
 
+    public void reload(Map<String, String> content){
+        this.content = content;
+    }
 
 }

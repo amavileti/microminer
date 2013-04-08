@@ -79,6 +79,20 @@ public class IndexSearchMapImplKw implements IndexSearcher{
         }
     }
     
+    public void reload(Map<String, String> tempContent){
+        content = Maps.newHashMap();
+        for(Entry<String, String> entry: tempContent.entrySet()){
+            String transformedKey = transformer.apply(entry.getKey());
+            if(!Strings.isNullOrEmpty(transformedKey)){
+                List<String> splitKeys = ImmutableList.copyOf(Splitter.on(spacePattern).split(transformedKey));
+                content.put(splitKeys, entry.getValue());
+                Collection<String> rotatedValues = rotator.rotate(transformedKey);
+                for(String s: rotatedValues){
+                    kwicValues.put(s, entry.getValue());
+                }
+            }
+        }
+    }
     
     /**
      * Accept a string input, and return a <code>Map<String,String></code> mapping
