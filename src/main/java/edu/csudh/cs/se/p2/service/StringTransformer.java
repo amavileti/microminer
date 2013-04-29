@@ -20,11 +20,14 @@ public class StringTransformer implements Function<String, String>{
     };
 
     private Function<String, String> noiseFilter = new Function<String, String>() {
+        
         Collection<String> noiseWords = ImmutableList.of("a", "an", "the", "and", "or", "of", "to", "be", "is", "in", "out", "by", "as", "at", "off");
+        private static final String EMPTY = "";
+        
 
-        public String apply(String input) {
-            if (Strings.isNullOrEmpty(input) || noiseWords.contains(input)) {
-                return null;
+        public String apply(String input) {            
+            for(String word : noiseWords){
+                input = input.replaceAll(word, EMPTY);
             }
             return input;
         }
