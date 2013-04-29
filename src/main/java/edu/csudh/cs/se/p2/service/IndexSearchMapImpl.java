@@ -56,4 +56,8 @@ public class IndexSearchMapImpl implements IndexSearcher {
         throw new UnsupportedOperationException();
     }
 
+    public Map<String, String> rotate(String url, String descirption){
+        throw new UnsupportedOperationException();
+    }
+
 }

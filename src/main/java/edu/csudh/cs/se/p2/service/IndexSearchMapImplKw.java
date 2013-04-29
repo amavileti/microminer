@@ -139,5 +139,10 @@ public class IndexSearchMapImplKw implements IndexSearcher{
         }
         return output;
     }
-    
+
+    public Map<String, String> rotate(String url, String description){
+        Map<String, String> urlDescription = Maps.newHashMap();
+        urlDescription.put(description, url);
+        return rotate(urlDescription);
+    }
 }

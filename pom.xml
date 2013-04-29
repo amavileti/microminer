@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>edu.csudh.cs.se.p2</groupId>
 	<artifactId>microminer</artifactId>
-	<version>0.1-SNAPSHOT</version>
+	<version>0.2-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>Aruna Mavileti Applet</name>
 	<build>
@@ -90,4 +90,5 @@
 			<version>0.2-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
+
 </project>
